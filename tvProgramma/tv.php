@@ -95,8 +95,8 @@ function odvaTvProgramma()
 		}
 		return $tele_2;
 	}
-	add_action( 'rest_api_init', function () 
+	add_action( 'rest_api_init', function ()
 	{
-		register_rest_route( 'wp/v2/', 'tv_program', ['methods' => 'GET','callback' => 'get_tv_program',]);
+		register_rest_route( 'wp/v2/', 'tv_program', ['methods' => WP_REST_Server::READABLE,'callback' => 'get_tv_program',]);
 	});
 }

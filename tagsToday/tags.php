@@ -22,10 +22,7 @@ function odvaTags()
 		return $superTags;
 	}
 	function tags_today() {
-		register_rest_route( 'wp/v2', '/superTags', array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => 'tagstoday',
-		) );
+		register_rest_route('wp/v2', '/superTags', ['methods'  => WP_REST_Server::READABLE,'callback' => 'tagstoday',]);
 	}
 	add_action( 'rest_api_init', 'tags_today' );
 }

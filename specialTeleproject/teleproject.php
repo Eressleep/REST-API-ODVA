@@ -1,7 +1,7 @@
 <?php
 function specialTeleproject()
 {
-	function get_special() {
+	function special() {
 
 		$args_special_project = array(
 			'post_status' => 'publish',
@@ -20,24 +20,22 @@ function specialTeleproject()
 		$arr = array();
 		foreach ($wp_query_special_project->posts as $posty)
 		{
-			$arr[] = array(
+			$arr[] = [
 				'ID' => $posty->ID,
 				'img' => get_the_post_thumbnail_url($posty->ID),
-				'title'=> problem_special_symbols($posty->post_title),
-				'excerpt' => problem_special_symbols($posty->post_excerpt),
-				'content' => problem_special_symbols($posty->post_content),
+				'title'=> $posty->post_title,
+				'excerpt' => $posty->post_excerpt,
+				'content' => $posty->post_content,
 				'teleproject_main_time' =>  get_field('teleproject_main_time', $posty->ID),
 				'teleproject_day' =>  get_field('teleproject_day', $posty->ID),
 				'views' => get_field('views', $posty->ID)
-			);
+			];
 		}
-		return 2;
+		return $arr;
 	}
-
-	add_action( 'rest_api_init', function () {
-		register_rest_route( 'wp/v2/', 'special', array(
-			'methods' => 'GET',
-			'callback' => 'get_special',
-		));
+	add_action( 'rest_api_init', function ()
+	{
+		register_rest_route( 'wp/v2/', 'special', ['methods' => WP_REST_Server::READABLE,'callback' => 'special',]);
 	});
+
 }
