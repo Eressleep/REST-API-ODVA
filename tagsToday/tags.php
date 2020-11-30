@@ -9,12 +9,13 @@ function odvaTags()
 				INNER JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->term_relationships.object_id
 				WHERE DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= $wpdb->posts.post_date and $wpdb->term_taxonomy.taxonomy='post_tag'
 			");
-		$tags = get_tags(array(
+		$tags = get_tags(
+			[
 			'orderby' => 'count',
 			'order'   => 'DESC',
 			'number'  => 10,
 			'include' => $term_ids,
-		));
+		]);
 		$superTags = [];
 		foreach ( (array) $tags as $tag ) {
 			$superTags[] = '#'.$tag->name;
