@@ -13,4 +13,7 @@ define('SHORTINIT',1);
 require dirname( __FILE__ ) .'/function.php';
 require dirname( __FILE__ ) .'/posts/posts.php';
 require dirname( __FILE__ ) .'/tagsToday/tags.php';
+//настройка постов
 odvaPost();
+//настройка тагов на сегодня
+odvaTags();
