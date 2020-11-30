@@ -17,6 +17,8 @@ require dirname( __FILE__ ) .'/specialTeleproject/teleproject.php';
 require dirname( __FILE__ ) .'/tvProgramma/tv.php';
 require dirname( __FILE__ ) .'/categories/categories.php';
 require dirname(__FILE__ ) . '/teleproject/teleproject.php';
+require dirname(__FILE__ ) . '/issues/issues.php';
+
 //setting up posts
 odvaPost();
 //setting up tags for today
@@ -29,4 +31,7 @@ odvaTvProgramma();
 odvaCategories();
 //setting up teleproject
 odvaTeleproject();
+//setting up issues
+odvaIssues();
+
 
