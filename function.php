@@ -81,3 +81,7 @@ function views($object){
 function comments_count($object){
 	return wp_count_comments($object['id'])->total_comments;
 }
+function id($object)
+{
+	return $object['id'];
+}

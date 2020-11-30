@@ -3,12 +3,13 @@ function odvaTeleproject()
 {
 	add_action( 'rest_api_init', function ()
 	{
-		register_rest_route( 'wp/v2/', 'teleproject_release',
-		[
-			'methods' => WP_REST_Server::READABLE,
-			'callback' => 'teleproject_release',
-		]
-		);
+		register_rest_route( 'wp/v2/', 'teleproject_release',['methods' => WP_REST_Server::READABLE,'callback' => 'teleproject_release',]);
+		register_rest_field( 'teleproject', 'ID',            ['get_callback' => 'id',      'schema' => null]);
+		register_rest_field( 'teleproject', 'img',           ['get_callback' => 'img',     'schema' => null]);
+		register_rest_field( 'teleproject', 'content',       ['get_callback' => 'content', 'schema' => null]);
+		register_rest_field( 'teleproject', 'excerpt',       ['get_callback' => 'excerpt', 'schema' => null]);
+		register_rest_field( 'teleproject', 'title',         ['get_callback' => 'title',   'schema' => null]);
+
 	});
 
 	function teleproject_release($request)
