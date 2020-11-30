@@ -4,11 +4,11 @@ function odvaTvProgramma()
 	function get_tv_program(){
 		$current_day_tv_program = date('Ymd');
 
-		$args_tv_program = array(
+		$args_tv_program = [
 			'post_status' => 'publish',
 			'posts_per_page' => 1,
 			'post_type' =>  'tv_program',
-			'meta_query'	=> array(
+			'meta_query'	=> [
 				'relation'		=> 'AND',
 				[
 					'key'	 	=> 'tv_program_start_date',
@@ -20,13 +20,13 @@ function odvaTvProgramma()
 					'compare' 	=> '>=',
 					'value'	  	=>  $current_day_tv_program,
 				],
-			),
-		);
+			],
+		];
 
 		$wp_query_tv_program = new WP_Query($args_tv_program);
 
-		$tele =  array();
-		$tele_2 =  array();
+		$tele =  [];
+		$tele_2 =  [];
 		$valoftv = 0;
 
 		while ( $wp_query_tv_program->have_posts()) {
@@ -69,21 +69,21 @@ function odvaTvProgramma()
 							$programma = explode('|',$programma);
 							if(strlen($programma[2]) == 3)
 							{
-								$programma = array(
+								$programma = [
 									'time'  => $programma[0],
 									'title' => ($programma[1]),
 									'age'   => $programma[2],
 									'link'  => $programma[3]
-								);
+								];
 							}
 							else
 							{
-								$programma = array(
+								$programma = [
 									'time'  => $programma[0],
 									'title' => ($programma[1]),
 									'age'   => $programma[3],
 									'link'  => $programma[2]
-								);
+								];
 							}
 							$tele[$tele[$valoftv]][] = $programma;
 							$tele_2[$tele[$valoftv]][] = $programma;
@@ -95,10 +95,8 @@ function odvaTvProgramma()
 		}
 		return $tele_2;
 	}
-	add_action( 'rest_api_init', function () {
-		register_rest_route( 'wp/v2/', 'tv_program', array(
-			'methods' => 'GET',
-			'callback' => 'get_tv_program',
-		));
+	add_action( 'rest_api_init', function () 
+	{
+		register_rest_route( 'wp/v2/', 'tv_program', ['methods' => 'GET','callback' => 'get_tv_program',]);
 	});
 }
