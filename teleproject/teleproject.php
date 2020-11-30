@@ -1,0 +1,47 @@
+<?php
+function odvaTeleproject()
+{
+	add_action( 'rest_api_init', function ()
+	{
+		register_rest_route( 'wp/v2/', 'teleproject_release',
+		[
+			'methods' => WP_REST_Server::READABLE,
+			'callback' => 'teleproject_release',
+		]
+		);
+	});
+
+	function teleproject_release($request)
+	{
+		$args_teleproject_release =
+			[
+			'post_status' => 'publish',
+			'posts_per_page' => 10,
+			'post_type' => 'teleproject_release',
+			'meta_key'   => 'teleproject_id_parent',
+			'paged' => ($_REQUEST['paged'] ? $_REQUEST['paged'] : 1)
+			];
+
+		$wp_query_teleproject_release = new WP_Query($args_teleproject_release);
+		$answer = [];
+		foreach ($wp_query_teleproject_release->posts as $stroke)
+		{
+			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$stroke->ID), $match);
+			$answer[] =
+			[
+				'ID' => $stroke->ID,
+				'img' => get_the_post_thumbnail_url($stroke->ID),
+				'title' => ($stroke->post_title),
+				'date' => get_field('teleproject_release_date_publish', $stroke->ID),
+				'content' => ($stroke->post_content),
+				'excerpt' => ($stroke->post_excerpt),
+				'views' => get_field('views', $stroke->ID),
+				'comment_count' => $stroke->comment_count,
+				'video' => $match[1],
+				'perents' => get_field('teleproject_id_parent',$stroke->ID)
+			];
+		}
+		return $answer;
+	}
+
+}

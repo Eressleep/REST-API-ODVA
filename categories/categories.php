@@ -1,5 +1,5 @@
 <?php
-function odvacategories()
+function odvaCategories()
 {
 	function allCategories()
 	{
@@ -7,7 +7,12 @@ function odvacategories()
 		$disallowed = [127,55,335,16348,30601,31139,345,157,349,16713,5226];
 		$argv = ['exclude' => $disallowed];
 		foreach (get_categories($argv) as $category){
-			$str[] = ['id' => $category->cat_ID,'name' => $category->name,'post_with_thit_category' => $category->parent];
+			$str[] =
+				[
+					'id' => $category->cat_ID,
+					'name' => $category->name,
+					'post_with_thit_category' => $category->parent
+				];
 		}
 		return $str;
 	}
