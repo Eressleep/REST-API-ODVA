@@ -13,7 +13,14 @@ define('SHORTINIT',1);
 require dirname( __FILE__ ) .'/function.php';
 require dirname( __FILE__ ) .'/posts/posts.php';
 require dirname( __FILE__ ) .'/tagsToday/tags.php';
-//настройка постов
+require dirname( __FILE__ ) .'/specialTeleproject/teleproject.php';
+require dirname( __FILE__ ) .'/tvProgramma/tv.php';
+//setting up posts
 odvaPost();
-//настройка тагов на сегодня
+//setting up tags for today
 odvaTags();
+//setting up special teleproject
+//to do
+//specialTeleproject();
+//setting up tvProgramma
+odvaTvProgramma();
