@@ -17,7 +17,7 @@ function specialTeleproject()
 			),
 		);
 		$wp_query_special_project = new WP_Query($args_special_project);
-		$arr = array();
+		$arr = [];
 		foreach ($wp_query_special_project->posts as $posty)
 		{
 			$arr[] = [

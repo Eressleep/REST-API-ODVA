@@ -20,7 +20,6 @@ odvaPost();
 //setting up tags for today
 odvaTags();
 //setting up special teleproject
-
 specialTeleproject();
 //setting up tvProgramma
 odvaTvProgramma();
