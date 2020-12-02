@@ -1,7 +1,7 @@
 <?php
 function odvaIssues()
 {
-	function get_issues()
+	function issues()
 	{
 
 		$args_all_teleprojects =
@@ -31,7 +31,7 @@ function odvaIssues()
 		}
 		return $answer;
 	}
-	function get_issues_id(WP_REST_Request $request){
+	function issues_id(WP_REST_Request $request){
 
 		$args_teleproject_release_filter = array(
 			'post_status' => 'publish',
@@ -67,9 +67,18 @@ function odvaIssues()
 		return $answer;
 	}
 	add_action( 'rest_api_init', function () {
-		register_rest_route( 'wp/v2/', 'issues',             ['methods' => 'GET','callback' => 'get_issues',]);
-		register_rest_route( 'wp/v2/', 'issues/(?P<id>\d+)', ['methods' => 'GET','callback' => 'get_issues_id',	]);
+		register_rest_route( 'wp/v2/', 'issues',             ['methods' => 'GET','callback' => 'issues',]);
+		register_rest_route( 'wp/v2/', 'issues/(?P<id>\d+)', ['methods' => 'GET','callback' => 'issues_id',]);
+
+		//additional fields
+		register_rest_field( 'teleproject_release', 'content',       ['get_callback' => 'content',        'schema' => null,]);
+		register_rest_field( 'teleproject_release', 'excerpt',       ['get_callback' => 'excerpt',        'schema' => null,]);
+		register_rest_field( 'teleproject_release', 'ID',            ['get_callback' => 'id',             'schema' => null,]);
+		register_rest_field( 'teleproject_release', 'img',           ['get_callback' => 'img',            'schema' => null,]);
+		register_rest_field( 'teleproject_release', 'title',         ['get_callback' => 'title',          'schema' => null,]);
+
+		register_rest_field( 'teleproject_release', 'comment_count', ['get_callback' => 'comments_count', 'schema' => null,]);
+		register_rest_field( 'teleproject_release', 'video',         ['get_callback' => 'video',          'schema' => null,]);
+
 	});
-
-
 }

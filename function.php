@@ -1,5 +1,5 @@
 <?php
-
+//additional field functions
 function link_youtube($object)
 {
 	preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $object['id']), $matches);
@@ -11,11 +11,11 @@ function categories($object)
 }
 function content($object)
 {
-	return $object['content']['rendered'];
+	return strip_tags($object['content']['rendered']);
 }
 function excerpt($object)
 {
-	return $object['excerpt']['rendered'];
+	return strip_tags($object['excerpt']['rendered']);
 }
 function hashtag($object)
 {
@@ -33,17 +33,17 @@ function img($object)
 }
 function related($object){
 	$tags_post = get_the_tags( $object['id']);
-	$tags_array = array();
+	$tags_array = [];
 
 	foreach ($tags_post as $tags_post_item) {
-		array_push($tags_array, $tags_post_item->term_id);
+		$tags_array[] = $tags_post_item->term_id;
 	}
-	$args_on_this_topic = array(
+	$args_on_this_topic = [
 		'post_status' => 'publish',
 		'posts_per_page' => 3,
 		'tag__in' => $tags_array,
-		'post__not_in' =>  array( $object['id']),
-	);
+		'post__not_in' =>  [$object['id']],
+	];
 	$wp_query_on_this_topic = new WP_Query($args_on_this_topic);
 	$rel_posts = [];
 	foreach ($wp_query_on_this_topic->posts as $post)
@@ -84,4 +84,8 @@ function comments_count($object){
 function id($object)
 {
 	return $object['id'];
+}
+function video($object){
+	preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$object['id']), $match);
+	return $match[1];
 }
