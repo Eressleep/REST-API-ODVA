@@ -13,6 +13,10 @@ function content($object)
 {
 	return strip_tags($object['content']['rendered']);
 }
+function contentWithoutTags($object)
+{
+	return $object['content']['rendered'];
+}
 function excerpt($object)
 {
 	return strip_tags($object['excerpt']['rendered']);
