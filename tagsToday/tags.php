@@ -13,7 +13,7 @@ function odvaTags()
 			[
 			'orderby' => 'count',
 			'order'   => 'DESC',
-			'number'  => 10,
+			'number'  => 15,
 			'include' => $term_ids,
 		]);
 		$superTags = [];
