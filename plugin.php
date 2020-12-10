@@ -21,6 +21,8 @@ while ($collection = readdir($collections))
 }
 closedir($collections);
 
+//setting multi post search
+odvaMultiPostSearch();
 //setting up posts
 odvaPost();
 //setting up tags for today
