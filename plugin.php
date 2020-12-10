@@ -12,13 +12,14 @@
 define('SHORTINIT',1);
 
 require_once dirname(__FILE__ ) .'/function.php';
-require_once dirname(__FILE__ ) .'/posts/posts.php';
-require_once dirname(__FILE__ ) .'/tagsToday/tags.php';
-require_once dirname(__FILE__ ) .'/specialTeleproject/teleproject.php';
-require_once dirname(__FILE__ ) .'/tvProgramma/tv.php';
-require_once dirname(__FILE__ ) .'/categories/categories.php';
-require_once dirname(__FILE__ ) . '/teleproject/teleproject.php';
-require_once dirname(__FILE__ ) . '/issues/issues.php';
+
+$collections = opendir(dirname(__FILE__ ).'/collections/');
+//добавить поик по мульти сущностям
+while ($collection = readdir($collections))
+{
+	require_once $collections.$collection;
+}
+closedir($collections);
 
 //setting up posts
 odvaPost();
