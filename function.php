@@ -2,6 +2,7 @@
 //additional field functions
 function link_youtube($object)
 {
+	//убрать регулярки
 	preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $object['id']), $matches);
 	return str_replace('"', '', $matches[0])[0];
 }
@@ -36,8 +37,9 @@ function img($object)
 	return get_the_post_thumbnail_url($object['id']);
 }
 function related($object){
-	$tags_post = get_the_tags( $object['id']);
+
 	$tags_array = [];
+	$tags_post = get_the_tags( $object['id']);
 
 	foreach ($tags_post as $tags_post_item) {
 		$tags_array[] = $tags_post_item->term_id;
@@ -52,6 +54,7 @@ function related($object){
 	$rel_posts = [];
 	foreach ($wp_query_on_this_topic->posts as $post)
 	{
+		//убрать регулярки
 		preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $post->ID), $match_video);
 		str_replace('"', '', $match_video[0]);
 		$post_hashtag = [];
@@ -71,7 +74,6 @@ function related($object){
 			'comment_count' => $post->comment_count,
 			'video' => $match_video[0],
 			'post_hashtag' => $post_hashtag
-
 		];
 	}
 	return $rel_posts;
@@ -90,6 +92,7 @@ function id($object)
 	return $object['id'];
 }
 function video($object){
+	//убрать регулярки
 	preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$object['id']), $match);
 	return $match[1];
 }

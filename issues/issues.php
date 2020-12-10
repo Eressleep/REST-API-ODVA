@@ -4,18 +4,18 @@ function odvaIssues()
 	function issues()
 	{
 
-		$args_all_teleprojects =
-			[
-				'post_status' => 'publish',
-				'posts_per_page' => -1,
-				'post_type' => 'teleproject',
-				'orderby' => 'date',
-				'order' => 'DESC',
-			];
-		$wp_query_all_teleprojects = new WP_Query($args_all_teleprojects);
 		$answer = [];
+
+		$wp_query_all_teleprojects = new WP_Query([
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'post_type' => 'teleproject',
+			'orderby' => 'date',
+			'order' => 'DESC',
+		]);
 		foreach ($wp_query_all_teleprojects->posts as $teleproject)
 		{
+			//убрать регулярки
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 			$answer[] =
 				[
@@ -33,24 +33,25 @@ function odvaIssues()
 	}
 	function issues_id(WP_REST_Request $request){
 
-		$args_teleproject_release_filter = array(
+		$answer = [];
+
+		$wp_query_all_teleprojects = new WP_Query([
 			'post_status' => 'publish',
 			'posts_per_page' => 10,
 			'post_type' => 'teleproject_release',
-			'meta_query'	=> array(
+			'meta_query'	=> [
 				'relation'		=> 'AND',
-				array(
+				[
 					'key'	 	=> 'teleproject_id_parent',
 					'value'	  	=>  (int)$request['id'],
 					'compare' 	=> '=',
-				),
-			),
-		);
+				],
+			],
+		]);
 
-		$wp_query_all_teleprojects = new WP_Query($args_teleproject_release_filter);
-		$answer = [];
 		foreach ($wp_query_all_teleprojects->posts as $teleproject)
 		{
+			//убрать регулярки
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 			$answer[] = array(
 				'ID' => $teleproject->ID,
@@ -69,6 +70,7 @@ function odvaIssues()
 	add_action( 'rest_api_init', function () {
 		register_rest_route( 'wp/v2/', 'issues',             ['methods' => 'GET','callback' => 'issues',]);
 		register_rest_route( 'wp/v2/', 'issues/(?P<id>\d+)', ['methods' => 'GET','callback' => 'issues_id',]);
+
 
 		//additional fields
 		register_rest_field( 'teleproject_release', 'content',       ['get_callback' => 'content',        'schema' => null,]);

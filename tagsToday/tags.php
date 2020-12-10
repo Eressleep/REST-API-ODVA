@@ -3,6 +3,8 @@ function odvaTags()
 {
 	function tagstoday() {
 		global $wpdb;
+		$superTags = [];
+
 		$term_ids = $wpdb->get_col("
 				SELECT term_id FROM $wpdb->term_taxonomy
 				INNER JOIN $wpdb->term_relationships ON $wpdb->term_taxonomy.term_taxonomy_id=$wpdb->term_relationships.term_taxonomy_id
@@ -16,7 +18,7 @@ function odvaTags()
 			'number'  => 15,
 			'include' => $term_ids,
 		]);
-		$superTags = [];
+
 		foreach ( (array) $tags as $tag ) {
 			$superTags[] = '#'.$tag->name;
 		}

@@ -10,14 +10,15 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  **/
 define('SHORTINIT',1);
-require dirname( __FILE__ ) .'/function.php';
-require dirname( __FILE__ ) .'/posts/posts.php';
-require dirname( __FILE__ ) .'/tagsToday/tags.php';
-require dirname( __FILE__ ) .'/specialTeleproject/teleproject.php';
-require dirname( __FILE__ ) .'/tvProgramma/tv.php';
-require dirname( __FILE__ ) .'/categories/categories.php';
-require dirname(__FILE__ ) . '/teleproject/teleproject.php';
-require dirname(__FILE__ ) . '/issues/issues.php';
+
+require_once dirname(__FILE__ ) .'/function.php';
+require_once dirname(__FILE__ ) .'/posts/posts.php';
+require_once dirname(__FILE__ ) .'/tagsToday/tags.php';
+require_once dirname(__FILE__ ) .'/specialTeleproject/teleproject.php';
+require_once dirname(__FILE__ ) .'/tvProgramma/tv.php';
+require_once dirname(__FILE__ ) .'/categories/categories.php';
+require_once dirname(__FILE__ ) . '/teleproject/teleproject.php';
+require_once dirname(__FILE__ ) . '/issues/issues.php';
 
 //setting up posts
 odvaPost();

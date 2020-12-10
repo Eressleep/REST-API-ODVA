@@ -1,10 +1,12 @@
 <?php
+//улучить запросы
 function odvaTvProgramma()
 {
 	function get_tv_program(){
+
 		$current_day_tv_program = date('Ymd');
 
-		$args_tv_program = [
+		$wp_query_tv_program = new WP_Query([
 			'post_status' => 'publish',
 			'posts_per_page' => 1,
 			'post_type' =>  'tv_program',
@@ -21,9 +23,7 @@ function odvaTvProgramma()
 					'value'	  	=>  $current_day_tv_program,
 				],
 			],
-		];
-
-		$wp_query_tv_program = new WP_Query($args_tv_program);
+		]);
 
 		$tele =  [];
 		$tele_2 =  [];
@@ -39,19 +39,8 @@ function odvaTvProgramma()
 
 					$counter_tv_program++;
 
-					$tv_program_item_date = get_sub_field('tv_program_item_date');
-
-					$class_tab_panel="panel panel_cont panel-default";
-					$class_active_panel_collapse="";
-
-					if($tv_program_item_date == date("d.m.Y")) {
-						$class_tab_panel="panel panel_cont_active panel-default";
-						$class_active_panel_collapse="in";
-					}
-					else if ($tv_program_item_date < date("d.m.Y")) {
-						$class_tab_panel="panel panel_cont_past panel-default";
-					}
 					$tele[] = get_sub_field('tv_program_item_title').' '.get_sub_field('tv_program_item_date');
+
 					if(have_rows('tv_program_item_program')) {
 						while ( have_rows('tv_program_item_program') ) {
 							the_row();
