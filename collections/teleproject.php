@@ -3,8 +3,7 @@ function odvaTeleproject()
 {
 
 
-	function teleproject_release()
-	{
+	function teleproject_release(){
 		$answer = [];
 
 		$wp_query_teleproject_release = new WP_Query([
@@ -15,8 +14,7 @@ function odvaTeleproject()
 			'paged' => ($_REQUEST['paged'] ? $_REQUEST['paged'] : 1)
 		]);
 
-		foreach ($wp_query_teleproject_release->posts as $stroke)
-		{
+		foreach ($wp_query_teleproject_release->posts as $stroke){
 			//убрать регулярки
 
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$stroke->ID), $match);

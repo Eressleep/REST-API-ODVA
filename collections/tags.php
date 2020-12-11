@@ -19,9 +19,9 @@ function odvaTags()
 			'include' => $term_ids,
 		]);
 
-		foreach ( (array) $tags as $tag ) {
+		foreach ( (array) $tags as $tag )
 			$superTags[] = '#'.$tag->name;
-		}
+
 		return $superTags;
 	}
 	function tags_today() {

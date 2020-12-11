@@ -1,10 +1,8 @@
 <?
-function odvaPost()
-{
+function odvaPost(){
 	add_action('rest_api_init','postProperties');
 
-	function postProperties()
-	{
+	function postProperties(){
 		//desired attributes
 		register_rest_field( 'post', 'youtube',    ['get_callback' => 'link_youtube',      'schema' => null,]);
 		register_rest_field( 'post', 'categories', ['get_callback' => 'categories',        'schema' => null,]);

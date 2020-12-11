@@ -1,9 +1,8 @@
 <?php
-function specialTeleproject()
-{
+function specialTeleproject(){
 	function special() {
-
 		$answer = [];
+
 		$wp_query_special_project = new WP_Query([
 			'post_status' => 'publish',
 			'posts_per_page' => -1,
@@ -17,8 +16,7 @@ function specialTeleproject()
 				]
 			],
 		]);
-		foreach ($wp_query_special_project->posts as $posty)
-		{
+		foreach ($wp_query_special_project->posts as $posty){
 			//убрта обращения к объектам
 			$answer[] = [
 				'ID'                    => $posty->ID,
@@ -33,8 +31,7 @@ function specialTeleproject()
 		}
 		return $answer;
 	}
-	add_action( 'rest_api_init', function ()
-	{
+	add_action( 'rest_api_init', function (){
 		register_rest_route( 'wp/v2/', 'special', ['methods' => WP_REST_Server::READABLE,'callback' => 'special',]);
 	});
 

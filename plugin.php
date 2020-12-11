@@ -16,9 +16,8 @@ require_once dirname(__FILE__ ) .'/function.php';
 $collections = opendir(dirname(__FILE__ ).'/collections/');
 //добавить поик по мульти сущностям
 while ($collection = readdir($collections))
-{
 	require_once $collections.$collection;
-}
+
 closedir($collections);
 
 //setting multi post search

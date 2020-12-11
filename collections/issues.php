@@ -13,8 +13,7 @@ function odvaIssues()
 			'orderby' => 'date',
 			'order' => 'DESC',
 		]);
-		foreach ($wp_query_all_teleprojects->posts as $teleproject)
-		{
+		foreach ($wp_query_all_teleprojects->posts as $teleproject){
 			//убрать регулярки
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 			$answer[] =
@@ -49,8 +48,7 @@ function odvaIssues()
 			],
 		]);
 
-		foreach ($wp_query_all_teleprojects->posts as $teleproject)
-		{
+		foreach ($wp_query_all_teleprojects->posts as $teleproject){
 			//убрать регулярки
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 			$answer[] = array(

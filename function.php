@@ -1,39 +1,30 @@
 <?php
 //additional field functions
-function link_youtube($object)
-{
+function link_youtube($object){
 	//убрать регулярки
 	preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $object['id']), $matches);
 	return str_replace('"', '', $matches[0])[0];
 }
-function categories($object)
-{
+function categories($object){
 	return  wp_get_post_categories($object['id']);
 }
-function content($object)
-{
+function content($object){
 	return strip_tags($object['content']['rendered']);
 }
-function contentWithoutTags($object)
-{
+function contentWithoutTags($object){
 	return $object['content']['rendered'];
 }
-function excerpt($object)
-{
+function excerpt($object){
 	return strip_tags($object['excerpt']['rendered']);
 }
-function hashtag($object)
-{
-	$arr = [];
+function hashtag($object){
+	$answer = [];
 	foreach (get_the_tags($object['id']) as $tags)
-	{
-		$arr[] = "#".$tags->name;
+		$answer[] = "#".$tags->name;
 
-	}
-	return $arr;
+	return $answer;
 }
-function img($object)
-{
+function img($object){
 	return get_the_post_thumbnail_url($object['id']);
 }
 function related($object){
@@ -41,16 +32,17 @@ function related($object){
 	$tags_array = [];
 	$tags_post = get_the_tags( $object['id']);
 
-	foreach ($tags_post as $tags_post_item) {
+	foreach ($tags_post as $tags_post_item)
 		$tags_array[] = $tags_post_item->term_id;
-	}
-	$args_on_this_topic = [
+
+
+	$wp_query_on_this_topic = new WP_Query([
 		'post_status' => 'publish',
 		'posts_per_page' => 3,
 		'tag__in' => $tags_array,
 		'post__not_in' =>  [$object['id']],
-	];
-	$wp_query_on_this_topic = new WP_Query($args_on_this_topic);
+	]);
+
 	$rel_posts = [];
 	foreach ($wp_query_on_this_topic->posts as $post)
 	{
@@ -59,10 +51,8 @@ function related($object){
 		str_replace('"', '', $match_video[0]);
 		$post_hashtag = [];
 		foreach (get_the_tags($post->ID) as $tags)
-		{
 			$post_hashtag[] = "#".$tags->name;
 
-		}
 		$rel_posts[] = [
 			'ID' => $post->ID,
 			'img' => img($post->ID),
@@ -87,8 +77,7 @@ function views($object){
 function comments_count($object){
 	return wp_count_comments($object['id'])->total_comments;
 }
-function id($object)
-{
+function id($object){
 	return $object['id'];
 }
 function video($object){
