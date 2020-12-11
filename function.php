@@ -37,10 +37,10 @@ function related($object){
 
 
 	$wp_query_on_this_topic = new WP_Query([
-		'post_status' => 'publish',
+		'post_status'    => 'publish',
 		'posts_per_page' => 3,
-		'tag__in' => $tags_array,
-		'post__not_in' =>  [$object['id']],
+		'tag__in'        => $tags_array,
+		'post__not_in'   =>  [$object['id']],
 	]);
 
 	$rel_posts = [];
@@ -54,16 +54,16 @@ function related($object){
 			$post_hashtag[] = "#".$tags->name;
 
 		$rel_posts[] = [
-			'ID' => $post->ID,
-			'img' => img($post->ID),
-			'title' => $post->post_title,
-			'date' => $post->post_date,
-			'content' => $post->post_content,
-			'excerpt' => $post->post_excerpt,
-			'views' => get_field('views', $post->ID),
+			'ID'            => $post->ID,
+			'img'           => img($post->ID),
+			'title'         => $post->post_title,
+			'date'          => $post->post_date,
+			'content'       => $post->post_content,
+			'excerpt'       => $post->post_excerpt,
+			'views'         => get_field('views', $post->ID),
 			'comment_count' => $post->comment_count,
-			'video' => $match_video[0],
-			'post_hashtag' => $post_hashtag
+			'video'         => $match_video[0],
+			'post_hashtag'  => $post_hashtag
 		];
 	}
 	return $rel_posts;
