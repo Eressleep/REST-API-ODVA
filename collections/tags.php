@@ -4,7 +4,7 @@ function odvaTags()
 	function tagstoday() {
 		global $wpdb;
 		$superTags = [];
-
+		//поменять на api
 		$term_ids = $wpdb->get_col("
 				SELECT term_id FROM $wpdb->term_taxonomy
 				INNER JOIN $wpdb->term_relationships ON $wpdb->term_taxonomy.term_taxonomy_id=$wpdb->term_relationships.term_taxonomy_id
