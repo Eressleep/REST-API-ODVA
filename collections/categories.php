@@ -1,4 +1,11 @@
 <?php
+
+class odva{
+	static  public function test(){
+		return test;
+	}
+}
+
 function odvaCategories(){
 	function allCategories(){
 		$categories = [];

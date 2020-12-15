@@ -18,7 +18,13 @@ $collections = opendir(dirname(__FILE__ ).'/collections/');
 while ($collection = readdir($collections))
 	require_once $collections.$collection;
 
+
 closedir($collections);
+
+$obj = new odva();
+odva::test();
+//$result = $repository?->getUser(5)?->name;
+
 
 //setting multi post search
 odvaMultiPostSearch();
