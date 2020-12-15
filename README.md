@@ -1,4 +1,4 @@
-#REST-API-ODVA
+REST-API-ODVA
 
 * Contributors: eressleep
 * Tags: phone interaction
@@ -7,9 +7,9 @@
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-##Description
+Description
 Сommunication with the application
-###Usage
+Usage
 
 !!! прописать пути на сайте
 * [`/wp-json/wp/v2/posts`]()
