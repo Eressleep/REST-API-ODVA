@@ -2,7 +2,6 @@
 function odvaCategories(){
 	function allCategories(){
 		$categories = [];
-		//ос категории
 		$disallowed = [127,55,335,16348,30601,31139,345,157,349,16713,5226];
 
 		foreach (get_categories(['exclude' => $disallowed]) as $category){

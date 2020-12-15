@@ -5,7 +5,7 @@ function odvaTeleproject()
 
 	function teleproject_release(){
 		$answer = [];
-		//возможно убрать пагинацию
+
 		$wp_query_teleproject_release = new WP_Query([
 			'post_status'    => 'publish',
 			'posts_per_page' => 10,

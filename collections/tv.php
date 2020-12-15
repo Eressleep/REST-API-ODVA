@@ -4,6 +4,8 @@ function odvaTvProgramma()
 {
 	function get_tv_program(){
 
+		$current_day_tv_program = date('Ymd');
+
 		$wp_query_tv_program = new WP_Query([
 			'post_status' => 'publish',
 			'posts_per_page' => 1,
@@ -13,12 +15,12 @@ function odvaTvProgramma()
 				[
 					'key'	 	=> 'tv_program_start_date',
 					'compare' 	=> '<=',
-					'value'	  	=>  date('Ymd'),
+					'value'	  	=>  $current_day_tv_program,
 				],
 				[
 					'key'	 	=> 'tv_program_end_date',
 					'compare' 	=> '>=',
-					'value'	  	=>  date('Ymd'),
+					'value'	  	=>  $current_day_tv_program,
 				],
 			],
 		]);
@@ -58,7 +60,7 @@ function odvaTvProgramma()
 							{
 								$programma = [
 									'time'  => $programma[0],
-									'title' => $programma[1],
+									'title' => ($programma[1]),
 									'age'   => $programma[2],
 									'link'  => $programma[3]
 								];
@@ -67,7 +69,7 @@ function odvaTvProgramma()
 							{
 								$programma = [
 									'time'  => $programma[0],
-									'title' => $programma[1],
+									'title' => ($programma[1]),
 									'age'   => $programma[3],
 									'link'  => $programma[2]
 								];
