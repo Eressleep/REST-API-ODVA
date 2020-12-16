@@ -18,7 +18,6 @@ $collections = opendir(dirname(__FILE__ ).'/collections/');
 while ($collection = readdir($collections))
 	require_once $collections.$collection;
 
-
 closedir($collections);
 
 $obj = new odva();
