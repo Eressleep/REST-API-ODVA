@@ -10,37 +10,23 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  **/
 define('SHORTINIT',1);
+function autoloader($class){
+	require_once dirname(__FILE__ ) . '/collection.php';
+}
+spl_autoload_register('autoloader');
 
-require_once dirname(__FILE__ ) .'/function.php';
+$requests = new collections();
 
-$collections = opendir(dirname(__FILE__ ).'/collections/');
-//добавить поик по мульти сущностям
-while ($collection = readdir($collections))
-	require_once $collections.$collection;
+$requests->restPost();
 
+$requests->restIssues();
 
-closedir($collections);
+$requests->restSpecialTeleproject();
 
-$obj = new odva();
-odva::test();
-//$result = $repository?->getUser(5)?->name;
+$requests->restTags();
 
+$requests->restTvProgramma();
 
-//setting multi post search
-odvaMultiPostSearch();
-//setting up posts
-odvaPost();
-//setting up tags for today
-odvaTags();
-//setting up special teleproject
-specialTeleproject();
-//setting up tvProgramma
-odvaTvProgramma();
-//setting up to show all categories without os
-odvaCategories();
-//setting up teleproject
-odvaTeleproject();
-//setting up issues
-odvaIssues();
+$requests->restIssues();
 
 
