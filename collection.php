@@ -53,7 +53,7 @@ class collections{
 			foreach ($wp_query_all_teleprojects->posts as $teleproject){
 				//убрать регулярки
 				preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
-				$answer[] = array(
+				$answer[] = [
 					'ID'            => $teleproject->ID,
 					'img'           => get_the_post_thumbnail_url($teleproject->ID),
 					'title'         => ($teleproject->post_title),
@@ -63,7 +63,7 @@ class collections{
 					'views'         => get_field('views', $teleproject->ID),
 					'comment_count' => $teleproject->comment_count,
 					'video'         => $match[1]
-				);
+				];
 			}
 			return $answer;
 		}
@@ -161,7 +161,7 @@ class collections{
 					'number'  => 15,
 					'include' => $term_ids,
 				]);
-
+			// помянять
 			foreach ( (array) $tags as $tag )
 				$superTags[] = '#'.$tag->name;
 
