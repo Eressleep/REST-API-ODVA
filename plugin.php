@@ -24,6 +24,10 @@ $obj = new odva();
 odva::test();
 //$result = $repository?->getUser(5)?->name;
 
+$test = new odva();
+$test->initCategories()
+
+initCategories();
 
 //setting multi post search
 odvaMultiPostSearch();
