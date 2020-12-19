@@ -22,10 +22,10 @@ class collections{
 					[
 						'ID'            => $teleproject->ID,
 						'img'           => get_the_post_thumbnail_url($teleproject->ID),
-						'title'         => ($teleproject->post_title),
+						'title'         => $teleproject->post_title,
 						'date'          => $teleproject->post_date,
-						'content'       => ($teleproject->post_content),
-						'excerpt'       => ($teleproject->post_excerpt),
+						'content'       => $teleproject->post_content,
+						'excerpt'       => $teleproject->post_excerpt,
 						'views'         => get_field('views', $teleproject->ID),
 						'comment_count' => wp_count_comments($teleproject->ID),
 					];
@@ -51,8 +51,6 @@ class collections{
 			]);
 
 			foreach ($wp_query_all_teleprojects->posts as $teleproject){
-				//убрать регулярки
-				preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 				$answer[] = [
 					'ID'            => $teleproject->ID,
 					'img'           => get_the_post_thumbnail_url($teleproject->ID),
@@ -62,7 +60,7 @@ class collections{
 					'excerpt'       => $teleproject->post_excerpt,
 					'views'         => get_field('views', $teleproject->ID),
 					'comment_count' => $teleproject->comment_count,
-					'video'         => $match[1]
+					'video'         => selectLink(get_field("teleproject_release_video",$teleproject->ID)),
 				];
 			}
 			return $answer;
@@ -189,9 +187,6 @@ class collections{
 			]);
 
 			foreach ($wp_query_teleproject_release->posts as $stroke){
-				//убрать регулярки
-
-				preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$stroke->ID), $match);
 				$answer[] =
 					[
 						'ID'            => $stroke->ID,
@@ -202,7 +197,7 @@ class collections{
 						'excerpt'       => ($stroke->post_excerpt),
 						'views'         => get_field('views', $stroke->ID),
 						'comment_count' => $stroke->comment_count,
-						'video'         => $match[1],
+						'video'         => selectLink(get_field("teleproject_release_video",$stroke->ID)),
 						'perents'       => get_field('teleproject_id_parent',$stroke->ID)
 					];
 			}
@@ -393,9 +388,22 @@ class collections{
 		return $object['id'];
 	}
 	function video($object){
-		//убрать регулярки
-		preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$object['id']), $match);
-		return $match[1];
+		//		preg_match('/src="([^"]+)"/', get_field("teleproject_release_vdeo",$object['id']), $match);
+		return selectLink(get_field("teleproject_release_video",$object['id']));
+	}
+	function selectLink($str){
+		$ans = '';
+		$flag = false;
+		for ($i = 0; $i < strlen($str); $i++) {
+			if ($str[$i + 3] == ')' and $flag == true) {
+				break;
+			}
+			if ($str[$i] == '(' || $flag == true) {
+				$ans .= $str[$i + 2];
+				$flag = true;
+			}
+		}
+		return $ans;
 	}
 
 
