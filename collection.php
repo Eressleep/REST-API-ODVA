@@ -388,7 +388,6 @@ class collections{
 		return $object['id'];
 	}
 	function video($object){
-		//		preg_match('/src="([^"]+)"/', get_field("teleproject_release_vdeo",$object['id']), $match);
 		return selectLink(get_field("teleproject_release_video",$object['id']));
 	}
 	function selectLink($str){
@@ -405,6 +404,18 @@ class collections{
 		}
 		return $ans;
 	}
+	//тестовая
+	function exp_Test($str){
+		try {
+			echo inverse(5) . "\n";
+			echo inverse(0) . "\n";
+		} catch (Exception $e) {
+			echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+		}
+		throw new Exception($str);
+	}
+
+
 
 
 }
