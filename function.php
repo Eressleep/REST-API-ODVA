@@ -35,18 +35,19 @@ function related($object){
 	foreach ($tags_post as $tags_post_item) {
 		$tags_array[] = $tags_post_item->term_id;
 	}
-	$args_on_this_topic = [
+
+	$wp_query_on_this_topic = new WP_Query([
 		'post_status' 	 => 'publish',
 		'posts_per_page' => 3,
 		'tag__in' 		 => $tags_array,
 		'post__not_in' 	 =>  [$object['id']],
-	];
-	$wp_query_on_this_topic = new WP_Query($args_on_this_topic);
+	]);
 	$rel_posts = [];
 	foreach ($wp_query_on_this_topic->posts as $post) {
 		//Replace regular expressions
 		preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $post->ID), $match_video);
 		str_replace('"', '', $match_video[0]);
+		
 		$post_hashtag = [];
 		foreach (get_the_tags($post->ID) as $tags) {
 			$post_hashtag[] = "#".$tags->name;
@@ -81,7 +82,20 @@ function id($object){
 	return $object['id'];
 }
 function video($object){
-	//Replace regular expressions
+	$ans = '';
 	preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$object['id']), $match);
-	return $match[1];
+	$str = get_field("teleproject_release_video",$object['id']);
+	$len = strlen($str);
+	$flag = false;
+	for ($i = 0; $i < $len - 4; $i++){
+		if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
+			if($str[$i+4].$str[$i+5] == '" ')
+				break;
+
+			$ans .= $str[$i+4];
+			$flag = true;
+
+		}
+	}
+	return $ans;
 }
