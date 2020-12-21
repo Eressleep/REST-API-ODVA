@@ -9,8 +9,8 @@ function odvaCategories()
 		foreach (get_categories($argv) as $category){
 			$str[] =
 				[
-					'id' => $category->cat_ID,
-					'name' => $category->name,
+					'id'					  => $category->cat_ID,
+					'name'					  => $category->name,
 					'post_with_thit_category' => $category->parent
 				];
 		}

@@ -5,10 +5,10 @@ function odvaTvProgramma()
 		$current_day_tv_program = date('Ymd');
 
 		$args_tv_program = [
-			'post_status' => 'publish',
+			'post_status' 	 => 'publish',
 			'posts_per_page' => 1,
-			'post_type' =>  'tv_program',
-			'meta_query'	=> [
+			'post_type' 	 =>  'tv_program',
+			'meta_query'	 => [
 				'relation'		=> 'AND',
 				[
 					'key'	 	=> 'tv_program_start_date',
