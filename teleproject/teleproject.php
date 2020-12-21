@@ -27,19 +27,32 @@ function odvaTeleproject()
 		$answer = [];
 		foreach ($wp_query_teleproject_release->posts as $stroke)
 		{
-			//Replace regular expressions
-			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$stroke->ID), $match);
+			$video_link = '';
+			$str = get_field("teleproject_release_video",$stroke->ID);
+			$len = strlen($str);
+			$flag = false;
+			for ($i = 0; $i < $len - 4; $i++){
+				if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
+					if($str[$i+4].$str[$i+5] == '" ')
+						break;
+
+					$video_link .= $str[$i+4];
+					$flag = true;
+
+				}
+			}
+
 			$answer[] =
 			[
 				'ID' 			=> $stroke->ID,
 				'img' 			=> get_the_post_thumbnail_url($stroke->ID),
-				'title' 		=> ($stroke->post_title),
+				'title' 		=> $stroke->post_title,
 				'date' 			=> get_field('teleproject_release_date_publish', $stroke->ID),
-				'content' 		=> ($stroke->post_content),
-				'excerpt' 		=> ($stroke->post_excerpt),
+				'content' 		=> $stroke->post_content,
+				'excerpt' 		=> $stroke->post_excerpt,
 				'views' 		=> get_field('views', $stroke->ID),
 				'comment_count' => $stroke->comment_count,
-				'video' 		=> $match[1],
+				'video' 		=> $video_link,
 				'perents' 		=> get_field('teleproject_id_parent',$stroke->ID)
 			];
 		}

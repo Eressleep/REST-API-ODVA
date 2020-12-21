@@ -2,8 +2,20 @@
 //additional field functions
 function link_youtube($object){
 	//Replace regular expressions
-	preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $object['id']), $matches);
-	return str_replace('"', '', $matches[0])[0];
+	$ans = '';
+	$str = get_post_field('video_in_post', $object['id']);
+	$len = strlen($str);
+	$flag = false;
+	for ($i = 0; $i < $len - 4; $i++){
+		if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
+			if($str[$i+4].$str[$i+5] == '" ')
+				break;
+
+			$ans .= $str[$i+4];
+			$flag = true;
+		}
+	}
+	return $ans;
 }
 function categories($object){
 	return  wp_get_post_categories($object['id']);
@@ -21,7 +33,6 @@ function hashtag($object){
 	$hashtags = [];
 	foreach (get_the_tags($object['id']) as $tags){
 		$hashtags[] = "#".$tags->name;
-
 	}
 	return $hashtags;
 }
@@ -44,10 +55,22 @@ function related($object){
 	]);
 	$rel_posts = [];
 	foreach ($wp_query_on_this_topic->posts as $post) {
-		//Replace regular expressions
-		preg_match_all('#(?:https?|ftp)://[^\s\,]+#i', get_post_field('video_in_post', $post->ID), $match_video);
+		$link_video = '';
+		$str = get_post_field('video_in_post', $post->ID);
+		$len = strlen($str);
+		$flag = false;
+		for ($i = 0; $i < $len - 4; $i++){
+			if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
+				if($str[$i+4].$str[$i+5] == '" ')
+					break;
+
+				$link_video .= $str[$i+4];
+				$flag = true;
+			}
+		}
+
 		str_replace('"', '', $match_video[0]);
-		
+
 		$post_hashtag = [];
 		foreach (get_the_tags($post->ID) as $tags) {
 			$post_hashtag[] = "#".$tags->name;
@@ -62,7 +85,7 @@ function related($object){
 			'excerpt' 		=> $post->post_excerpt,
 			'views' 		=> get_field('views', $post->ID),
 			'comment_count' => $post->comment_count,
-			'video' 		=> $match_video[0],
+			'video' 		=> $link_video,
 			'post_hashtag'  => $post_hashtag
 
 		];
@@ -83,7 +106,6 @@ function id($object){
 }
 function video($object){
 	$ans = '';
-	preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$object['id']), $match);
 	$str = get_field("teleproject_release_video",$object['id']);
 	$len = strlen($str);
 	$flag = false;

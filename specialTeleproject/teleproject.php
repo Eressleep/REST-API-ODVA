@@ -3,7 +3,7 @@ function specialTeleproject()
 {
 	function special() {
 
-		$args_special_project = [
+		$wp_query_special_project = new WP_Query( [
 			'post_status' 		=> 'publish',
 			'posts_per_page' 	=> -1,
 			'post_type'		    => 'teleproject',
@@ -15,8 +15,7 @@ function specialTeleproject()
 					'compare' 	=> '=',
 				]
 			],
-		];
-		$wp_query_special_project = new WP_Query($args_special_project);
+		]);
 		$arr = [];
 		foreach ($wp_query_special_project->posts as $posty)
 		{
