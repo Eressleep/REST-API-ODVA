@@ -7,25 +7,25 @@ function odvaIssues()
 		$answer = [];
 
 		$wp_query_all_teleprojects = new WP_Query([
-			'post_status'    => 'publish',
+			'post_status' => 'publish',
 			'posts_per_page' => -1,
-			'post_type'      => 'teleproject',
-			'orderby'        => 'date',
-			'order'          => 'DESC',
+			'post_type' => 'teleproject',
+			'orderby' => 'date',
+			'order' => 'DESC',
 		]);
 		foreach ($wp_query_all_teleprojects->posts as $teleproject){
 			//убрать регулярки
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 			$answer[] =
 				[
-					'ID'            => $teleproject->ID,
-					'img'           => get_the_post_thumbnail_url($teleproject->ID),
-					'title'         => ($teleproject->post_title),
-					'date'          => $teleproject->post_date,
-					'content'       => ($teleproject->post_content),
-					'excerpt'       => ($teleproject->post_excerpt),
-					'views'         => get_field('views', $teleproject->ID),
-					'comment_count' => wp_count_comments($teleproject->ID),
+					'ID' => $teleproject->ID,
+					'img' => get_the_post_thumbnail_url($teleproject->ID),
+					'title' => ($teleproject->post_title),
+					'date' => $teleproject->post_date,
+					'content' => ($teleproject->post_content),
+					'excerpt' => ($teleproject->post_excerpt),
+					'views' => get_field('views', $teleproject->ID),
+					'comment_count' =>wp_count_comments($teleproject->ID),
 				];
 		}
 		return $answer;
@@ -52,15 +52,15 @@ function odvaIssues()
 			//убрать регулярки
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$teleproject->ID), $match);
 			$answer[] = array(
-				'ID'            => $teleproject->ID,
-				'img'           => get_the_post_thumbnail_url($teleproject->ID),
-				'title'         => ($teleproject->post_title),
-				'date'          => $teleproject->post_date,
-				'content'       => ($teleproject->post_content),
-				'excerpt'       => $teleproject->post_excerpt,
-				'views'         => get_field('views', $teleproject->ID),
+				'ID' => $teleproject->ID,
+				'img' => get_the_post_thumbnail_url($teleproject->ID),
+				'title' => ($teleproject->post_title),
+				'date' => $teleproject->post_date,
+				'content' => ($teleproject->post_content),
+				'excerpt' => $teleproject->post_excerpt,
+				'views' => get_field('views', $teleproject->ID),
 				'comment_count' => $teleproject->comment_count,
-				'video'         => $match[1]
+				'video' => $match[1]
 			);
 		}
 		return $answer;

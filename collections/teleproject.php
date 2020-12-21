@@ -7,11 +7,11 @@ function odvaTeleproject()
 		$answer = [];
 
 		$wp_query_teleproject_release = new WP_Query([
-			'post_status'    => 'publish',
+			'post_status' => 'publish',
 			'posts_per_page' => 10,
-			'post_type'      => 'teleproject_release',
-			'meta_key'       => 'teleproject_id_parent',
-			'paged'          => ($_REQUEST['paged'] ? $_REQUEST['paged'] : 1)
+			'post_type' => 'teleproject_release',
+			'meta_key'   => 'teleproject_id_parent',
+			'paged' => ($_REQUEST['paged'] ? $_REQUEST['paged'] : 1)
 		]);
 
 		foreach ($wp_query_teleproject_release->posts as $stroke){
@@ -20,16 +20,16 @@ function odvaTeleproject()
 			preg_match('/src="([^"]+)"/', get_field("teleproject_release_video",$stroke->ID), $match);
 			$answer[] =
 			[
-				'ID'            => $stroke->ID,
-				'img'           => get_the_post_thumbnail_url($stroke->ID),
-				'title'         => ($stroke->post_title),
-				'date'          => get_field('teleproject_release_date_publish', $stroke->ID),
-				'content'       => ($stroke->post_content),
-				'excerpt'       => ($stroke->post_excerpt),
-				'views'         => get_field('views', $stroke->ID),
+				'ID' => $stroke->ID,
+				'img' => get_the_post_thumbnail_url($stroke->ID),
+				'title' => ($stroke->post_title),
+				'date' => get_field('teleproject_release_date_publish', $stroke->ID),
+				'content' => ($stroke->post_content),
+				'excerpt' => ($stroke->post_excerpt),
+				'views' => get_field('views', $stroke->ID),
 				'comment_count' => $stroke->comment_count,
-				'video'         => $match[1],
-				'perents'       => get_field('teleproject_id_parent',$stroke->ID)
+				'video' => $match[1],
+				'perents' => get_field('teleproject_id_parent',$stroke->ID)
 			];
 		}
 		return $answer;

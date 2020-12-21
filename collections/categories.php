@@ -7,8 +7,8 @@ function odvaCategories(){
 		foreach (get_categories(['exclude' => $disallowed]) as $category){
 			$categories[] =
 				[
-					'id'                      => $category->cat_ID,
-					'name'                    => $category->name,
+					'id' => $category->cat_ID,
+					'name' => $category->name,
 					'post_with_thit_category' => $category->parent
 				];
 		}
