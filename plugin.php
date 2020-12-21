@@ -12,14 +12,15 @@
 define('SHORTINIT',1);
 
 //hang listener to connect
-require_once dirname(__FILE__ ).'/function.php';
-require_once dirname(__FILE__ ).'/posts/posts.php';
-require_once dirname(__FILE__ ).'/tagsToday/tags.php';
-require_once dirname(__FILE__ ).'/specialTeleproject/teleproject.php';
-require_once dirname(__FILE__ ).'/tvProgramma/tv.php';
-require_once dirname(__FILE__ ).'/categories/categories.php';
-require_once dirname(__FILE__ ).'/teleproject/teleproject.php';
-require_once dirname(__FILE__ ).'/issues/issues.php';
+require_once dirname(__FILE__ ). '/function.php';
+
+require_once dirname(__FILE__) . '/collections/posts.php';
+require_once dirname(__FILE__) . '/collections/tags.php';
+require_once dirname(__FILE__) . '/collections/special.php';
+require_once dirname(__FILE__) . '/collections/tv.php';
+require_once dirname(__FILE__) . '/collections/categories.php';
+require_once dirname(__FILE__) . '/collections/teleproject.php';
+require_once dirname(__FILE__) . '/collections/issues.php';
 
 //setting up posts
 odvaPost();
