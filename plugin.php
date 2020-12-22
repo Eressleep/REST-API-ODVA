@@ -16,7 +16,7 @@ foreach (glob(dirname(__FILE__ ). '/collections/*.php') as $collection)
 	require_once $collection;
 
 
-collectionsForAPI::init();
+collectionsForRestAPI::init();
 
 
 
