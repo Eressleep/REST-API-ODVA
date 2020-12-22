@@ -12,18 +12,14 @@
 define('SHORTINIT',1);
 
 //hang listener to connect
-require_once dirname(__FILE__ ). '/function.php';
 
-require_once dirname(__FILE__) . '/collections/posts.php';
-require_once dirname(__FILE__) . '/collections/tags.php';
-require_once dirname(__FILE__) . '/collections/special.php';
-require_once dirname(__FILE__) . '/collections/tv.php';
-require_once dirname(__FILE__) . '/collections/categories.php';
-require_once dirname(__FILE__) . '/collections/teleproject.php';
-require_once dirname(__FILE__) . '/collections/issues.php';
+foreach (glob(dirname(__FILE__ ). '/collections/*.php') as $collection){
+	require_once $collection;
+}
+
 
 //setting up posts
-odvaPost();
+collections::odvaPost();
 //setting up tags for today
 odvaTags();
 //setting up special teleproject
@@ -35,6 +31,6 @@ odvaCategories();
 //setting up teleproject
 odvaTeleproject();
 //setting up issues
-odvaIssues();
+colodvaIssues();
 
 
