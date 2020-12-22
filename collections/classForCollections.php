@@ -24,7 +24,6 @@ class collectionsForRestAPI{
 			register_rest_field( 'post', 'title',      ['get_callback' => 'title',             'schema' => null,]);
 			register_rest_field( 'post', 'views',      ['get_callback' => 'views',             'schema' => null,]);
 			register_rest_field( 'post', 'views',      ['get_callback' => 'views',             'schema' => null,]);
-
 		});
 	}
 
@@ -51,14 +50,14 @@ class collectionsForRestAPI{
 	{
 		function issues()
 		{
-			$wp_query_all_teleprojects = new WP_Query([
-				'post_status' => 'publish',
-				'posts_per_page' => -1,
-				'post_type' => 'teleproject',
-				'orderby' => 'date',
-				'order' => 'DESC',
-			]);
 			$answer = [];
+			$wp_query_all_teleprojects = new WP_Query([
+				'post_status'	 => 'publish',
+				'posts_per_page' => -1,
+				'post_type'		 => 'teleproject',
+				'orderby'		 => 'date',
+				'order' 		 => 'DESC',
+			]);
 			foreach ($wp_query_all_teleprojects->posts as $teleproject)
 			{
 				//Replace regular expressions
@@ -80,7 +79,7 @@ class collectionsForRestAPI{
 
 		function issues_id(WP_REST_Request $request){
 
-			$args_teleproject_release_filter = [
+			$wp_query_all_teleprojects = new WP_Query([
 				'post_status' => 'publish',
 				'posts_per_page' => 10,
 				'post_type' => 'teleproject_release',
@@ -92,9 +91,7 @@ class collectionsForRestAPI{
 						'compare' 	=> '=',
 					],
 				],
-			];
-
-			$wp_query_all_teleprojects = new WP_Query($args_teleproject_release_filter);
+			]);
 			$answer = [];
 			foreach ($wp_query_all_teleprojects->posts as $teleproject)
 			{
@@ -103,9 +100,9 @@ class collectionsForRestAPI{
 				$answer[] = [
 					'ID' 			=> $teleproject->ID,
 					'img' 			=> get_the_post_thumbnail_url($teleproject->ID),
-					'title' 		=> ($teleproject->post_title),
+					'title' 		=> $teleproject->post_title,
 					'date' 			=> $teleproject->post_date,
-					'content' 		=> ($teleproject->post_content),
+					'content' 		=> $teleproject->post_content,
 					'excerpt' 		=> $teleproject->post_excerpt,
 					'views' 		=> get_field('views', $teleproject->ID),
 					'comment_count' => $teleproject->comment_count,
@@ -133,40 +130,40 @@ class collectionsForRestAPI{
 
 	private function getSpecialTeleproject()
 	{
-		function special() {
 
-			$wp_query_special_project = new WP_Query( [
-				'post_status' 		=> 'publish',
-				'posts_per_page' 	=> -1,
-				'post_type'		    => 'teleproject',
-				'meta_query'		=> [
-					'relation'		=> 'AND',
-					[
-						'key'	 	=> 'in_special_project',
-						'value'	  	=> true,
-						'compare' 	=> '=',
-					]
-				],
-			]);
-			$arr = [];
-			foreach ($wp_query_special_project->posts as $posty)
-			{
-				$arr[] = [
-					'ID' 					=> $posty->ID,
-					'img' 					=> get_the_post_thumbnail_url($posty->ID),
-					'title'					=> $posty->post_title,
-					'excerpt' 				=> $posty->post_excerpt,
-					'content'				=> $posty->post_content,
-					'teleproject_main_time' => get_field('teleproject_main_time', $posty->ID),
-					'teleproject_day' 		=> get_field('teleproject_day', $posty->ID),
-					'views' 				=> get_field('views', $posty->ID)
-				];
-			}
-			return $arr;
-		}
 		add_action( 'rest_api_init', function ()
 		{
-			register_rest_route( 'wp/v2/', 'special', ['methods' => WP_REST_Server::READABLE,'callback' => 'special',]);
+			register_rest_route( 'wp/v2/', 'special', ['methods' => WP_REST_Server::READABLE,'callback' => function() {
+
+				$wp_query_special_project = new WP_Query( [
+					'post_status' 		=> 'publish',
+					'posts_per_page' 	=> -1,
+					'post_type'		    => 'teleproject',
+					'meta_query'		=> [
+						'relation'		=> 'AND',
+						[
+							'key'	 	=> 'in_special_project',
+							'value'	  	=> true,
+							'compare' 	=> '=',
+						]
+					],
+				]);
+				$arr = [];
+				foreach ($wp_query_special_project->posts as $posty)
+				{
+					$arr[] = [
+						'ID' 					=> $posty->ID,
+						'img' 					=> get_the_post_thumbnail_url($posty->ID),
+						'title'					=> $posty->post_title,
+						'excerpt' 				=> $posty->post_excerpt,
+						'content'				=> $posty->post_content,
+						'teleproject_main_time' => get_field('teleproject_main_time', $posty->ID),
+						'teleproject_day' 		=> get_field('teleproject_day', $posty->ID),
+						'views' 				=> get_field('views', $posty->ID)
+					];
+				}
+				return $arr;
+			}]);
 		});
 
 	}
@@ -213,21 +210,6 @@ class collectionsForRestAPI{
 				$answer = [];
 				foreach ($wp_query_teleproject_release->posts as $stroke)
 				{
-					$video_link = '';
-					$str = get_field("teleproject_release_video",$stroke->ID);
-					$len = strlen($str);
-					$flag = false;
-					for ($i = 0; $i < $len - 4; $i++){
-						if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
-							if($str[$i+4].$str[$i+5] == '" ')
-								break;
-
-							$video_link .= $str[$i+4];
-							$flag = true;
-
-						}
-					}
-
 					$answer[] =
 						[
 							'ID' 			=> $stroke->ID,
@@ -238,7 +220,7 @@ class collectionsForRestAPI{
 							'excerpt' 		=> $stroke->post_excerpt,
 							'views' 		=> get_field('views', $stroke->ID),
 							'comment_count' => $stroke->comment_count,
-							'video' 		=> $video_link,
+							'video' 		=> cleanLink(get_field("teleproject_release_video",$stroke->ID)),
 							'perents' 		=> get_field('teleproject_id_parent',$stroke->ID)
 						];
 				}
@@ -255,89 +237,88 @@ class collectionsForRestAPI{
 
 	private function getTvProgramma()
 	{
-		function get_tv_program(){
-			$current_day_tv_program = date('Ymd');
-			$wp_query_tv_program = new WP_Query([
-				'post_status' 	 => 'publish',
-				'posts_per_page' => 1,
-				'post_type' 	 =>  'tv_program',
-				'meta_query'	 => [
-					'relation'		=> 'AND',
-					[
-						'key'	 	=> 'tv_program_start_date',
-						'compare' 	=> '<=',
-						'value'	  	=>  $current_day_tv_program,
+		add_action( 'rest_api_init', function ()
+		{
+			register_rest_route( 'wp/v2/', 'tv_program', ['methods' => WP_REST_Server::READABLE,'callback' => function(){
+				$current_day_tv_program = date('Ymd');
+				$wp_query_tv_program = new WP_Query([
+					'post_status' 	 => 'publish',
+					'posts_per_page' => 1,
+					'post_type' 	 =>  'tv_program',
+					'meta_query'	 => [
+						'relation'		=> 'AND',
+						[
+							'key'	 	=> 'tv_program_start_date',
+							'compare' 	=> '<=',
+							'value'	  	=>  $current_day_tv_program,
+						],
+						[
+							'key'	 	=> 'tv_program_end_date',
+							'compare' 	=> '>=',
+							'value'	  	=>  $current_day_tv_program,
+						],
 					],
-					[
-						'key'	 	=> 'tv_program_end_date',
-						'compare' 	=> '>=',
-						'value'	  	=>  $current_day_tv_program,
-					],
-				],
-			]);
+				]);
 
-			$tele =  [];
-			$tele_2 =  [];
-			$valoftv = 0;
+				$tele =  [];
+				$tele_2 =  [];
+				$valoftv = 0;
 
-			while ( $wp_query_tv_program->have_posts()) {
-				$wp_query_tv_program->the_post();
-				$wp_query_tv_program->post;
-				if(have_rows('tv_program_items')){
-					$counter_tv_program=0;
-					while ( have_rows('tv_program_items')){
-						the_row();
+				while ( $wp_query_tv_program->have_posts()) {
+					$wp_query_tv_program->the_post();
+					$wp_query_tv_program->post;
+					if(have_rows('tv_program_items')){
+						$counter_tv_program=0;
+						while ( have_rows('tv_program_items')){
+							the_row();
 
-						$counter_tv_program++;
+							$counter_tv_program++;
 
 
-						$tele[] = get_sub_field('tv_program_item_title').' '.get_sub_field('tv_program_item_date');
-						if(have_rows('tv_program_item_program')) {
-							while ( have_rows('tv_program_item_program') ) {
-								the_row();
-								$programma = get_sub_field('tv_program_item_program_date').'|';
-								if(get_sub_field('tv_program_item_program_link')) {
-									$programma .= get_sub_field('tv_program_item_program_title').'|'.get_the_permalink(get_sub_field('tv_program_item_program_link')).'|';
+							$tele[] = get_sub_field('tv_program_item_title').' '.get_sub_field('tv_program_item_date');
+							if(have_rows('tv_program_item_program')) {
+								while ( have_rows('tv_program_item_program') ) {
+									the_row();
+									$programma = get_sub_field('tv_program_item_program_date').'|';
+									if(get_sub_field('tv_program_item_program_link')) {
+										$programma .= get_sub_field('tv_program_item_program_title').'|'.get_the_permalink(get_sub_field('tv_program_item_program_link')).'|';
+									}
+									else {
+										$programma .= get_sub_field('tv_program_item_program_title').'|';
+									}
+
+									if (get_sub_field('tv_program_item_program_age')) {
+										$programma .= get_sub_field('tv_program_item_program_age').'+';
+									}
+									$programma = explode('|',$programma);
+									if(strlen($programma[2]) == 3)
+									{
+										$programma = [
+											'time'  => $programma[0],
+											'title' => $programma[1],
+											'age'   => $programma[2],
+											'link'  => $programma[3]
+										];
+									}
+									else
+									{
+										$programma = [
+											'time'  => $programma[0],
+											'title' => ($programma[1]),
+											'age'   => $programma[3],
+											'link'  => $programma[2]
+										];
+									}
+									$tele[$tele[$valoftv]][] = $programma;
+									$tele_2[$tele[$valoftv]][] = $programma;
 								}
-								else {
-									$programma .= get_sub_field('tv_program_item_program_title').'|';
-								}
-
-								if (get_sub_field('tv_program_item_program_age')) {
-									$programma .= get_sub_field('tv_program_item_program_age').'+';
-								}
-								$programma = explode('|',$programma);
-								if(strlen($programma[2]) == 3)
-								{
-									$programma = [
-										'time'  => $programma[0],
-										'title' => $programma[1],
-										'age'   => $programma[2],
-										'link'  => $programma[3]
-									];
-								}
-								else
-								{
-									$programma = [
-										'time'  => $programma[0],
-										'title' => ($programma[1]),
-										'age'   => $programma[3],
-										'link'  => $programma[2]
-									];
-								}
-								$tele[$tele[$valoftv]][] = $programma;
-								$tele_2[$tele[$valoftv]][] = $programma;
+								$valoftv++;
 							}
-							$valoftv++;
 						}
 					}
 				}
-			}
-			return $tele_2;
-		}
-		add_action( 'rest_api_init', function ()
-		{
-			register_rest_route( 'wp/v2/', 'tv_program', ['methods' => WP_REST_Server::READABLE,'callback' => 'get_tv_program',]);
+				return $tele_2;
+			}]);
 		});
 	}
 }

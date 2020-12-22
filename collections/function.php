@@ -120,3 +120,19 @@ function video($object){
 	}
 	return $ans;
 }
+function cleanLink($str){
+	$video_link = '';
+	$len = strlen($str);
+	$flag = false;
+	for ($i = 0; $i < $len - 4; $i++){
+		if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
+			if($str[$i+4].$str[$i+5] == '" ')
+				break;
+
+			$video_link .= $str[$i+4];
+			$flag = true;
+
+		}
+	}
+	return $video_link;
+}
