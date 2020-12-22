@@ -1,43 +1,8 @@
 <?php
 //additional field functions
 //mv to class
-function link_youtube($object){
-	$ans = '';
-	$str = get_post_field('video_in_post', $object['id']);
-	$len = strlen($str);
-	$flag = false;
-	for ($i = 0; $i < $len - 4; $i++){
-		if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
-			if($str[$i+4].$str[$i+5] == '" ')
-				break;
-
-			$ans .= $str[$i+4];
-			$flag = true;
-		}
-	}
-	return $ans;
-}
-function categories($object){
-	return  wp_get_post_categories($object['id']);
-}
-function content($object){
-	return strip_tags($object['content']['rendered']);
-}
-function contentWithoutTags($object){
-	return $object['content']['rendered'];
-}
-function excerpt($object){
-	return strip_tags($object['excerpt']['rendered']);
-}
-function hashtag($object){
-	$hashtags = [];
-	foreach (get_the_tags($object['id']) as $tags){
-		$hashtags[] = "#".$tags->name;
-	}
-	return $hashtags;
-}
 function img($object){
-	return get_the_post_thumbnail_url($object['id']);
+	return ;
 }
 function related($object){
 	$tags_post = get_the_tags( $object['id']);
@@ -91,18 +56,6 @@ function related($object){
 	}
 	return $rel_posts;
 }
-function title($object){
-	return $object['title']['rendered'];
-}
-function views($object){
-	return get_field('views',$object['id']);
-}
-function comments_count($object){
-	return wp_count_comments($object['id'])->total_comments;
-}
-function id($object){
-	return $object['id'];
-}
 function video($object){
 	$ans = '';
 	$str = get_field("teleproject_release_video",$object['id']);
@@ -135,4 +88,74 @@ function cleanLink($str){
 		}
 	}
 	return $video_link;
+}
+function setStructureOfAdditionalFields($name){
+	if($name == 'post') {
+		register_rest_field($name, 'content', ['get_callback' =>
+			function ($object) {
+				return $object['content']['rendered'];
+			}, 'schema' => null,]);
+	}
+	else {
+		register_rest_field($name, 'content', ['get_callback' =>
+			function ($object) {
+				return strip_tags($object['content']['rendered']);
+			}, 'schema' => null,]);
+		register_rest_field($name, 'video',         ['get_callback' => 'video',          'schema' => null,]);
+	}
+
+	register_rest_field( $name, 'youtube',    	 ['get_callback' =>
+		function($object){
+			$ans = '';
+			$str = get_post_field('video_in_post', $object['id']);
+			$len = strlen($str);
+			$flag = false;
+			for ($i = 0; $i < $len - 4; $i++){
+				if($str[$i].$str[$i+1].$str[$i+2].$str[$i+3] == 'rc="' || $flag == true){
+					if($str[$i+4].$str[$i+5] == '" ')
+						break;
+
+					$ans .= $str[$i+4];
+					$flag = true;
+				}
+			}
+			return $ans;
+		},      'schema' => null,]);
+	register_rest_field( $name, 'categories', 	 ['get_callback' =>
+		function($object){
+			return  wp_get_post_categories($object['id']);
+		}, 'schema' => null,]);
+	register_rest_field( $name, 'ID',        	 ['get_callback' =>
+		function($object){
+			return $object['id'];
+		}, 'schema' => null,]);
+	register_rest_field( $name, 'excerpt',  	 ['get_callback' =>
+		function($object){
+			return strip_tags($object['excerpt']['rendered']);
+		},'schema' => null,]);
+	register_rest_field( $name, 'hashtag',  	 ['get_callback' =>
+		function($object){
+		$hashtags = [];
+		foreach (get_the_tags($object['id']) as $tags)
+			$hashtags[] = "#".$tags->name;
+
+		return $hashtags;
+	},'schema' => null,]);
+	register_rest_field( $name, 'img',       	 ['get_callback' =>
+		function($object){
+			return get_the_post_thumbnail_url($object['id']);
+		},               'schema' => null,]);
+	register_rest_field( $name, 'related',    	 ['get_callback' => 'related',           'schema' => null,]);
+	register_rest_field( $name, 'title',      	 ['get_callback' =>
+		function($object){
+			return $object['title']['rendered'];
+		},             'schema' => null,]);
+	register_rest_field( $name, 'views',         ['get_callback' =>
+		function($object){
+			return get_field('views',$object['id']);
+		},'schema' => null,]);
+	register_rest_field( $name, 'comment_count', ['get_callback' =>
+		function($object){
+			return wp_count_comments($object['id'])->total_comments;
+		}, 'schema' => null,]);
 }
