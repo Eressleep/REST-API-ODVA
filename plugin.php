@@ -12,9 +12,7 @@
 define('SHORTINIT',1);
 
 //hang listener to connect
-foreach (glob(dirname(__FILE__ ). '/collections/*.php') as $collection)
-	require_once $collection;
-
+require_once dirname(__FILE__) . '/classForCollections.php';
 
 collectionsForRestAPI::init();
 
