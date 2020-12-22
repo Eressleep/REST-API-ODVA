@@ -12,7 +12,7 @@ class collectionsForAPI{
 		self::odvaTvProgramma();
 	}
 
-	public function odvaPost()
+	private function odvaPost()
 	{
 		add_action('rest_api_init','postProperties');
 
@@ -33,7 +33,7 @@ class collectionsForAPI{
 		}
 	}
 
-	public function odvaCategories()
+	private function odvaCategories()
 	{
 		function allCategories()
 		{
@@ -57,7 +57,7 @@ class collectionsForAPI{
 		});
 	}
 
-	public function odvaIssues()
+	private function odvaIssues()
 	{
 		function issues()
 		{
@@ -143,7 +143,7 @@ class collectionsForAPI{
 		});
 	}
 
-	public function odvaSpecialTeleproject()
+	private function odvaSpecialTeleproject()
 	{
 		function special() {
 
@@ -183,7 +183,7 @@ class collectionsForAPI{
 
 	}
 
-	public function odvaTags()
+	private function odvaTags()
 	{
 		function tagstoday() {
 			global $wpdb;
@@ -212,7 +212,7 @@ class collectionsForAPI{
 		add_action( 'rest_api_init', 'tags_today' );
 	}
 
-	public function odvaTeleproject()
+	private function odvaTeleproject()
 	{
 		add_action( 'rest_api_init', function ()
 		{
@@ -274,7 +274,7 @@ class collectionsForAPI{
 
 	}
 
-	public function odvaTvProgramma()
+	private function odvaTvProgramma()
 	{
 		function get_tv_program(){
 			$current_day_tv_program = date('Ymd');
