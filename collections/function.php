@@ -1,7 +1,7 @@
 <?php
 //additional field functions
+//mv to class
 function link_youtube($object){
-	//Replace regular expressions
 	$ans = '';
 	$str = get_post_field('video_in_post', $object['id']);
 	$len = strlen($str);
@@ -69,7 +69,6 @@ function related($object){
 			}
 		}
 
-		str_replace('"', '', $match_video[0]);
 
 		$post_hashtag = [];
 		foreach (get_the_tags($post->ID) as $tags) {

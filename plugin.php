@@ -12,25 +12,10 @@
 define('SHORTINIT',1);
 
 //hang listener to connect
-
 foreach (glob(dirname(__FILE__ ). '/collections/*.php') as $collection){
 	require_once $collection;
 }
 
-
-//setting up posts
-collections::odvaPost();
-//setting up tags for today
-odvaTags();
-//setting up special teleproject
-specialTeleproject();
-//setting up tvProgramma
-odvaTvProgramma();
-//setting up to show all categories without os
-odvaCategories();
-//setting up teleproject
-odvaTeleproject();
-//setting up issues
-colodvaIssues();
+collectionsForAPI::init();
 
 
