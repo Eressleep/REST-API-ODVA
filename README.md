@@ -12,7 +12,6 @@ Description
 
 Usage
 
-!!! прописать пути на сайте
 * [`/wp-json/wp/v2/posts`](https://iryston.tv/wp-json/wp/v2/posts)
 * [`/wp-json/wp/v2/posts/(?P<id>[\d]+)`](https://iryston.tv/wp-json/wp/v2/posts/122767)
 * [`/wp/v2//wp-json/wp/v2/issueAll`](https://iryston.tv/wp-json/wp/v2/issueAll)
